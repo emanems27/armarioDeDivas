@@ -2,6 +2,12 @@
 <html lang="es">
 
 <head>
+    <link rel="manifest" href="manifest.json">
+    <script>
+      if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+      }
+    </script>
     <meta charset="UTF-8">
     <title>Tu Outfit Montado</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -18,7 +24,6 @@
             font-family: 'Press Start 2P', cursive;
         }
 
-        /* Estilo de Ventana Windows 98 */
         .window {
             background: #c0c0c0;
             border: 2px solid;
@@ -36,7 +41,6 @@
             margin-bottom: 10px;
         }
 
-        /* Contenedor en REJILLA */
         .canvas-outfit {
             border: 3px inset #fff;
             padding: 20px;
@@ -137,8 +141,7 @@
             flex-direction: column;
             gap: 10px;
         }
-
-        /* Pantalla verde pixelada estilo retro */
+        
         .player-screen {
             background: #000;
             border: 2px inset #fff;
@@ -175,7 +178,6 @@
             font-size: 9px !important;
         }
 
-        /* Estilizar el control de audio nativo es limitado, pero podemos darle un fondo */
         #audio-player {
             background-color: #c0c0c0;
             /* Para que combine */
@@ -183,7 +185,6 @@
             box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #ffffff;
         }
 
-        /* Nuevo layout de columnas */
         .main-container {
             display: flex;
             justify-content: center;
@@ -208,7 +209,6 @@
             gap: 20px;
         }
 
-        /* Ajuste para que las ventanas laterales no se estiren */
         .window-labels,
         .window-postit,
         .window-music-player {
@@ -379,7 +379,7 @@
             }
         }
 
-        // 3. Tus funciones de actualización (se quedan casi igual, solo añadimos validación)
+        // 3. funciones de actualización
         function updateBackground() {
             if (backgrounds.length === 0) return; // Si no hay fondos, no hacemos nada
 
@@ -468,7 +468,7 @@
         const statusText = document.getElementById('status-text');
         const songTitle = document.getElementById('song-title');
 
-        // Lista de reproducción (puedes añadir los nombres de tus archivos aquí)
+        // Lista de reproducción
         let playlist = [
             { url: 'audios/Musica.mp3', name: 'DTI_THEME' },
             { url: 'audios/bratz.mp3', name: 'bratzzzz' },
