@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Armario Clueless</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <script>
+    async function cargarCarpeta() {
+      // Esto abre una ventana para que el usuario elija su carpeta de assets
+      const carpetaHandle = await window.showDirectoryPicker();
+
+      // Aquí recorreremos la carpeta y buscaremos las fotos
+      for await (const entry of carpetaHandle.values()) {
+        if (entry.kind === 'file') {
+          const file = await entry.getFile();
+          const imageUrl = URL.createObjectURL(file);
+          // Aquí llamarías a tu función para mostrar la ropa
+          console.log("Archivo encontrado:", entry.name);
+        }
+      }
+    }
+    document.getElementById('btn-abrir').addEventListener('click', cargarCarpeta);
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-image: url('/assets/fondo2.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      padding: 20px;
+      margin: 0;
+      /* Asegura que el body ocupe toda la pantalla para centrar */
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .title-bar-text {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 11px;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* CONTENEDOR PRINCIPAL CENTRADO */
+    .main-layout {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      /* Un poco más de espacio entre columnas para que respire */
+      max-width: 1200px;
+      /* Limita el ancho máximo para que no se estire demasiado */
+      margin: 0 auto;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .window-body {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* AJUSTE VENTANA AVATAR */
+    .window-avatar {
+      width: 400px;
+      /* Quitamos el !important para que sea más flexible */
+      height: auto;
+    }
+
+    .avatar-row {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px dashed #888;
+      padding: 0 50px;
+    }
+
+    .avatar-row:last-child {
+      border-bottom: none;
+    }
+
+    .avatar-row img {
+      max-height: 190px;
+      max-width: 100%;
+      height: 90% !important;
+      object-fit: contain;
+      z-index: 5;
+    }
+
+    .avatar-row button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 35px;
+      background-color: #c0c0c0;
+      cursor: pointer;
+    }
+
+    .btn-prev {
+      left: 10px;
+    }
+
+    .btn-next {
+      right: 10px;
+    }
+
+    /* VENTANAS LATERALES */
+    .window-side {
+      width: 300px !important;
+    }
+
+    .window-side .window-body img {
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 180px;
+      object-fit: contain;
+      margin: 0 auto 10px auto;
+      display: block;
+    }
+
+    .bolso-body {
+      min-height: 200px;
+      justify-content: center;
+    }
+
+    .arrow-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .ok-text {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 25px;
+    }
+
+    .ok-button {
+      width: 150px;
+      height: 55px;
+      color: rgb(152, 4, 152);
+    }
+
+    /* Pequeño ajuste para pantallas pequeñas */
+    @media (max-width: 1000px) {
+      .main-layout {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <body>
+    <div class="main-layout">
+
+
+      <div class="column">
+        <div class="window window-side" style="width: 300px !important; margin-bottom: 10px;">
+          <div class="title-bar">
+            <div class="title-bar-text">WEATHER.EXE</div>
+          </div>
+          <div class="window-body" style="padding: 2px; background: #000; overflow: hidden;">
+            <iframe src="https://wttr.in/Gijón" frameborder="0" scrolling="NO" allowtransparency="true"
+              style="width: 100%; height: auto; display: block; filter: contrast(120%) brightness(90%);"></iframe>
+            <div
+              style="background: #c0c0c0; padding: 5px; font-size: 8px; font-family: 'Press Start 2P', cursive; border-top: 2px solid #808080; text-align: center; color: #000;">
+              <span id="update-time">LAST UPD: 12:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="window window-side">
+          <div class="title-bar">
+            <div class="title-bar-text">CHAQUETAS</div>
+          </div>
+          <div class="window-body">
+            <img id="window-jacket" src="jacket.png">
+            <div class="arrow-buttons">
+              <button onclick="prev('window-jacket')">◀</button>
+              <button onclick="next('window-jacket')">▶</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="window window-side">
+          <div class="title-bar">
+            <div class="title-bar-text">BOLSOS</div>
+          </div>
+          <div class="window-body bolso-body">
+            <img id="window-bag" src="tu-imagen-de-bolso.png">
+            <div class="arrow-buttons">
+              <button onclick="prev('window-bag')">◀</button>
+              <button onclick="next('window-bag')">▶</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window window-avatar">
+        <div class="title-bar">
+          <div class="title-bar-text">OUTFIT</div>
+        </div>
+        <div class="window-body">
+          <div class="avatar-row">
+            <button class="btn-prev" onclick="prev('avatar-top')">◀</button>
+            <img id="avatar-top" src="top.png">
+            <button class="btn-next" onclick="next('avatar-top')">▶</button>
+          </div>
+          <div class="avatar-row">
+            <button class="btn-prev" onclick="prev('avatar-bottom')">◀</button>
+            <img id="avatar-bottom" src="skirt.png">
+            <button class="btn-next" onclick="next('avatar-bottom')">▶</button>
+          </div>
+          <div class="avatar-row">
+            <button class="btn-prev" onclick="prev('avatar-shoes')">◀</button>
+            <img id="avatar-shoes" src="boots.png">
+            <button class="btn-next" onclick="next('avatar-shoes')">▶</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="window window-side" style="width: 200px !important;">
+          <div class="title-bar">
+            <div class="title-bar-text">GAFAS</div>
+          </div>
+          <div class="window-body">
+            <img id="window-glasses" src="glasses.png">
+            <div class="arrow-buttons">
+              <button onclick="prev('window-glasses')">◀</button>
+              <button onclick="next('window-glasses')">▶</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="window window-side" style="width: 200px !important;">
+          <div class="title-bar">
+            <div class="title-bar-text">BUFANDAS</div>
+          </div>
+          <div class="window-body">
+            <img id="window-scarf" src="scarf.png">
+            <div class="arrow-buttons">
+              <button onclick="prev('window-scarf')">◀</button>
+              <button onclick="next('window-scarf')">▶</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="window window-side" style="width: 200px !important;">
+          <div class="title-bar">
+            <div class="title-bar-text">ACCESORIOS</div>
+          </div>
+          <div class="window-body">
+            <img id="window-accessories" src="belt.png">
+            <div class="arrow-buttons">
+              <button onclick="prev('window-accessories')">◀</button>
+              <button onclick="next('window-accessories')">▶</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="window window-side" style="width: 200px !important; margin-top: 10px;">
+          <div class="title-bar">
+            <div class="title-bar-text">WINPLAY.EXE</div>
+          </div>
+          <div class="window-body" style="padding: 5px; background: #c0c0c0; display: block;">
+            <div
+              style="background: #000; border: 2px inset #fff; padding: 5px; color: #00ff00; font-family: monospace; font-size: 9px; height: 35px; width: 100%; display: flex; flex-direction: column; justify-content: center; overflow: hidden; margin-bottom: 5px; box-sizing: border-box;">
+              <div id="song-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">NO DISCO
+              </div>
+              <div id="status-text" style="color: #008000;">STOPPED</div>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between; width: 100%; gap: 2px; margin-bottom: 5px; box-sizing: border-box;">
+              <button onclick="prevSong()" style="flex: 1; padding: 4px 0; font-size: 8px; min-width: 0;">◀◀</button>
+              <button onclick="playAudio()" style="flex: 1; padding: 4px 0; font-size: 8px; min-width: 0;">▶</button>
+              <button onclick="pauseAudio()" style="flex: 1; padding: 4px 0; font-size: 8px; min-width: 0;">||</button>
+              <button onclick="nextSong()" style="flex: 1; padding: 4px 0; font-size: 8px; min-width: 0;">▶▶</button>
+            </div>
+            <button onclick="document.getElementById('upload-music').click()"
+              style="width: 100%; font-size: 8px; padding: 5px; box-sizing: border-box;">EJECT/LOAD</button>
+            <input type="file" id="upload-music" style="display:none" accept="audio/*" onchange="loadMusic(event)">
+            <audio id="audio-element"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width: 100%; display: flex; justify-content: center; margin-top: 15px; margin-bottom: 50px;">
+      <button class="ok-button" onclick="irAlOutfit()">
+        <span class="ok-text">OK</span>
+      </button>
+      <button id="btn-abrir" class="win98-btn">📁 SELECCIONAR CARPETA DE ARMARIO</button>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+      function irAlOutfit() {
+        console.log("Botón OK pulsado"); // Esto te servirá para ver si funciona en la consola (F12)
+
+        try {
+          const outfit = {
+            top: document.getElementById('avatar-top')?.src || "",
+            bottom: document.getElementById('avatar-bottom')?.src || "",
+            shoes: document.getElementById('avatar-shoes')?.src || "",
+            jacket: document.getElementById('window-jacket')?.src || "",
+            bag: document.getElementById('window-bag')?.src || "",
+            glasses: document.getElementById('window-glasses')?.src || "",
+            scarf: document.getElementById('window-scarf')?.src || "",
+            acc: document.getElementById('window-accessories')?.src || ""
+          };
+
+          // Guardamos en memoria
+          localStorage.setItem('outfitSeleccionado', JSON.stringify(outfit));
+
+          // Redirigimos
+          window.location.href = 'outfit.html';
+        } catch (error) {
+          console.error("Error al guardar el outfit:", error);
+          alert("Hubo un error al guardar tu outfit.");
+        }
+      }
+    </script>
+  </body>
+
+</html>
