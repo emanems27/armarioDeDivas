@@ -181,6 +181,24 @@
 </head>
 
 <body>
+  <button id="btn-abrir" class="win98-btn">📁 CONECTAR CARPETA</button>
+
+<script>
+  // Esta función DEBE estar aquí para que encuentre el ID 'btn-abrir'
+  document.getElementById('btn-abrir').addEventListener('click', async () => {
+    console.log("Botón pulsado"); // Mira si sale esto en la consola (F12)
+    try {
+      if (!window.showDirectoryPicker) {
+        alert("Tu navegador no soporta esta función. Usa Chrome o Edge en ordenador.");
+        return;
+      }
+      const carpetaHandle = await window.showDirectoryPicker();
+      alert("¡Carpeta conectada!");
+    } catch (err) {
+      console.error(err);
+    }
+  });
+</script>
 
   <body>
     <div class="main-layout">
