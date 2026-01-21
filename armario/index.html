@@ -9,6 +9,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("App lista para instalar"))
+        .catch(err => console.log("Fallo al registrar:", err));
+    }
+  </script>
+
   <script>
     async function cargarCarpeta() {
       // Esto abre una ventana para que el usuario elija su carpeta de assets
