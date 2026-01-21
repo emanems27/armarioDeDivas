@@ -2,6 +2,12 @@
 <html lang="es">
 
 <head>
+  <link rel="manifest" href="manifest.json">
+  <script>
+      if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+      }
+  </script>
   <meta charset="UTF-8">
   <title>Armario Clueless</title>
   <base href="/armarioDeDivas/armario/">
